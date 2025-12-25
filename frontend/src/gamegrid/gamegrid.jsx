@@ -1,16 +1,48 @@
-import React from 'react';
+import React from "react";
+import "./gamegrid.css";
 
 export default function GameGrid({ games }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-20">
-      {games.map((game, index) => (
-        <div key={index} className="bg-[#1c1c24] p-4 rounded-[2rem] border border-white/5 hover:border-[#f3f305]/50 transition-all group cursor-pointer shadow-lg">
-          <div className="aspect-square rounded-2xl overflow-hidden mb-3 bg-[#252531]">
-            <img src={game.img} alt={game.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+    <section className="game-section">
+
+      {/* TAB MENU (SEJAJAR GRID) */}
+      <div className="tab-container">
+        {/* <button className="btn active">Game Populer</button> */}
+        <button className="btn">Game Populer</button>
+        {/* <button className="btn">Specialist PUBGM</button> */}
+      </div>
+
+      {/* GRID GAME CARD */}
+      <div className="game-grid">
+        {games.map((game, index) => (
+          <div className="game-card" key={index}>
+
+            {/* BADGE */}
+            <span className="badge-hot">HOT</span>
+
+            {/* IMAGE + BUTTON */}
+            <div className="game-image-wrapper">
+              <button className="game-play-btn">TOP UP</button>
+
+              <img
+                src={game.img}
+                alt={game.name}
+                className="game-image"
+                loading="lazy"
+              />
+            </div>
+
+            {/* INFO */}
+<div className="game-info">
+  <p className="game-title">{game.name}</p>
+  <p className="game-subtitle">{game.publisher}</p>
+</div>
+
+
           </div>
-          <p className="text-center font-bold text-[11px] md:text-xs uppercase tracking-tight group-hover:text-[#f3f305] line-clamp-1">{game.name}</p>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
+    </section>
   );
 }

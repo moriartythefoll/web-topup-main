@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
+import './App.css';
+
 import Navbar from './navbar/navbar';
 import Banner from './banner/banner';
 import GameGrid from './gamegrid/gamegrid';
 import CekTransaksi from './cek transaksi/cek_transaksi';
 import Footer from './footer/footer';
+import ArticleSection from './articles/ArticleSection';
+import articleSection from './articles/ArticleContent';
+
 
 function App() {
   const [menuAktif, setMenuAktif] = useState('topup');
   const [currentBanner, setCurrentBanner] = useState(0);
 
-  const daftarBanner = ["/images/baner1.png", "/images/baner2.png", "/images/banner3.jpg"];
+  const daftarBanner = [
+    "/images/baner1.png",
+    "/images/baner2.png",
+    "/images/baaner3.png",
+  ];
+
   const transactions = [
     { date: "18-12-2025 19:38:26", invoice: "TPxxxxxxxxxxxx104", phone: "*********281", price: "IDR 15xxxxx", status: "PENDING" },
     { date: "18-12-2025 19:38:22", invoice: "TPxxxxxxxxxxxx874", phone: "*********447", price: "IDR 15xxxxx", status: "PENDING" },
@@ -23,45 +33,76 @@ function App() {
   ];
 
   const games = [
-    { name: "Mobile Legends", img: "/images/mobile legend.jpeg" },
-    { name: "Genshin Impact", img: "/images/genshin impact.jpg" },
-    { name: "Valorant", img: "/images/valorant.jpg" },
-    { name: "Free Fire", img: "/images/free fire.jpg" },
-    { name: "PUBG Mobile", img: "/images/pubg.jpg" },
-    { name: "Honor of Kings", img: "/images/hokcoverlong_526a50ab.jpg" },
-    { name: "Call of Duty", img: "/images/call of duty.jpg" },
-    { name: "Undawn", img: "/images/garena-undawn.webp" },
-    { name: "Magic Chess gogo", img: "/images/magic chest gogo.png" },
-    { name: "Honkai : star rail", img: "/images/honkai star rail.jpg" }
+    { name: "Mobile Legends", img: "/images/mobilelegend.png", publisher: "Moonton" },
+    { name: "Genshin Impact", img: "/images/genshinimpact.png", publisher: "HoYoverse" },
+    { name: "Valorant", img: "/images/A6 TOPUP.png", publisher: "Riot Games" },
+    { name: "Free Fire", img: "/images/freefire.png", publisher: "Garena" },
+    { name: "PUBG Mobile", img: "/images/pubg.png", publisher: "Tencent Games" },
+    { name: "Honor of Kings", img: "/images/hok.png", publisher: "TiMi Studio" },
   ];
 
-
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white font-sans overflow-x-hidden">
-      <Navbar menuAktif={menuAktif} setMenuAktif={setMenuAktif} />
-      
-      <main className="relative">
-        <div className="fixed top-[-10%] left-[-10%] w-[700px] h-[700px] bg-[#f3f305]/5 blur-[150px] rounded-full -z-10"></div>
+    <>
+      {/* ===== NAVBAR ===== */}
+      <Navbar
+        menuAktif={menuAktif}
+        setMenuAktif={setMenuAktif}
+      />
 
-        {menuAktif === 'topup' && (
-          <div className="max-w-[1400px] mx-auto px-4 pt-10">
-            <Banner currentBanner={currentBanner} setCurrentBanner={setCurrentBanner} daftarBanner={daftarBanner} />
-            <GameGrid games={games} />
-          </div>
-        )}
+      {/* ===== MAIN APP ===== */}
+      <div className="app-wrapper">
+        <main className="app-main">
 
-        {menuAktif === 'transaksi' && <CekTransaksi transactions={transactions} />}
+          {/* ===== HALAMAN TOPUP ===== */}
+          {menuAktif === 'topup' && (
+            <>
+              {/* HERO SECTION → BATAS VIDEO */}
+              <section className="hero-section">
+                <div className="hero-video">
+                  <video autoPlay muted loop playsInline>
+                    <source src="/images/background.mp4" type="video/mp4" />
+                  </video>
+                </div>
 
-        {/* Gambar Banner Bawah */}
-        <section className="max-w-[1200px] mx-auto px-4 mb-24 pointer-events-none">
-          <div className="relative overflow-hidden" style={{ maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)', WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)' }}>
-            <img src="/images/Gemini_Generated_Image_mej7fbmej7fbmej7.png" alt="Footer Banner" className="w-full h-auto object-cover opacity-80 brightness-75 contrast-125 mix-blend-lighten" />
-          </div>
-        </section>
+                <div className="hero-content">
+                  <Banner
+                    currentBanner={currentBanner}
+                    setCurrentBanner={setCurrentBanner}
+                    daftarBanner={daftarBanner}
+                  />
+                </div>
+              </section>
 
-        <Footer />
-      </main>
-    </div>
+              {/* GAME GRID → TIDAK TERKENA VIDEO */}
+              <GameGrid games={games} />
+              <ArticleSection />
+            </>
+          )}
+
+{/* ===== HALAMAN KHUSUS ARTIKEL ===== */}
+          {menuAktif === 'artikel' && (
+            <div className="pages-container" style={{ paddingTop: '80px', minHeight: '80vh' }}>
+              <ArticleSection />
+            </div>
+          )}
+
+
+
+
+          {/* ===== HALAMAN CEK TRANSAKSI ===== */}
+          {menuAktif === 'cek-transaksi' && (
+            <CekTransaksi transactions={transactions} />
+          )}
+
+        </main>
+
+        {/* FOOTER NORMAL (IKUT SCROLL) */}
+        <Footer setMenuAktif={setMenuAktif} />
+      </div>
+
+      {/* 🔥 JIKA MAU FLOATING FIXED (TIDAK IKUT SCROLL) */}
+      {/* <FloatingFooter /> */}
+    </>
   );
 }
 
